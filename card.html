@@ -138,9 +138,6 @@
   <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  console.log('userData:', localStorage.getItem('userData'));
-  alert('userData = ' + localStorage.getItem('userData'));
-
   const rawData = localStorage.getItem('userData');
       let userData = rawData ? JSON.parse(rawData) : {};
 
