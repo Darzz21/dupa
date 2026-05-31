@@ -9,10 +9,14 @@
   <meta name="apple-mobile-web-app-title" content="mObywatel">
   <link rel="apple-touch-icon" href="assets/images/logo.png">
 
-  <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
 
   <link rel="stylesheet" href="assets/main.css" />
   <link rel="stylesheet" href="assets/card.css" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
 </head>
 
 <body>
@@ -27,19 +31,22 @@
   </div>
 
   <div class="container">
-    <p class="time_text" id="time"></p>
+
+    <p class="time_text" id="time">Czas: --:--:-- --.--.----</p>
 
     <div class="id_image_data">
+      <img class="id_image" src="assets/images/plate.png" />
+      <div class="inset"></div>
       <div class="id_own_image" id="photo_display"></div>
 
       <div class="id_data_grid">
         <div class="data_holder">
-          <p class="data_title" id="name"></p>
+          <p class="data_title firstname" id="name"></p>
           <p class="data_value">Imię (imiona)</p>
         </div>
 
         <div class="data_holder">
-          <p class="data_title" id="surname"></p>
+          <p class="data_title surname" id="surname"></p>
           <p class="data_value">Nazwisko</p>
         </div>
 
@@ -55,12 +62,13 @@
 
         <div class="data_holder">
           <p class="data_title" id="pesel"></p>
-          <p class="data_value">PESEL</p>
+          <p class="data_value">Numer PESEL</p>
         </div>
       </div>
     </div>
 
     <div class="confirm_info">
+
       <div class="confirm_box">
         <p class="box_top">Seria i numer</p>
         <p class="box_value box_highlight" id="seriesAndNumber"></p>
@@ -76,48 +84,30 @@
         <p class="box_top">Data wydania</p>
         <p class="box_value" id="givenDate"></p>
       </div>
+
     </div>
   </div>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
 
-  // ---------- SAFE LOAD ----------
+  // ✅ SAFE LOAD (no null crash ever)
   let userData = {};
   try {
-    const raw = localStorage.getItem("userData");
-    userData = raw ? JSON.parse(raw) : {};
+    userData = JSON.parse(localStorage.getItem('userData')) || {};
   } catch (e) {
     userData = {};
   }
 
-  // ---------- HELPERS ----------
-  const setText = (id, value) => {
+  // ---------- SAFE TEXT SET ----------
+  const set = (id, val) => {
     const el = document.getElementById(id);
-    if (el) el.innerText = value || "";
-  };
-
-  const randomSeries = () => {
-    const l = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    return (
-      l[Math.floor(Math.random()*26)] +
-      l[Math.floor(Math.random()*26)] +
-      l[Math.floor(Math.random()*26)] +
-      " " +
-      Math.floor(100000 + Math.random()*900000)
-    );
-  };
-
-  const formatDate = (d) => {
-    const dd = String(d.getDate()).padStart(2,"0");
-    const mm = String(d.getMonth()+1).padStart(2,"0");
-    const yy = d.getFullYear();
-    return `${dd}.${mm}.${yy}`;
+    if (el) el.innerText = val || "";
   };
 
   // ---------- PHOTO ----------
   if (userData.image) {
-    const photo = document.getElementById("photo_display");
+    const photo = document.getElementById('photo_display');
     if (photo) {
       photo.style.backgroundImage = `url(${userData.image})`;
       photo.style.backgroundSize = "cover";
@@ -125,24 +115,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ---------- FILL TEXT FIELDS (NO --- EVER) ----------
-  setText("name", (userData.name || "").toUpperCase());
-  setText("surname", (userData.surname || "").toUpperCase());
-  setText("pesel", userData.pesel || "");
+  // ---------- BASIC DATA ----------
+  set('name', (userData.name || "").toUpperCase());
+  set('surname', (userData.surname || "").toUpperCase());
+  set('pesel', userData.pesel || "");
 
   if (userData.day && userData.month && userData.year) {
-    setText("birthday", `${userData.day}.${userData.month}.${userData.year}`);
+    set('birthday', `${userData.day}.${userData.month}.${userData.year}`);
   } else {
-    setText("birthday", "");
+    set('birthday', "");
   }
 
   // ---------- SERIES ----------
   if (!userData.seriesAndNumber) {
-    userData.seriesAndNumber = randomSeries();
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    userData.seriesAndNumber =
+      letters[Math.floor(Math.random()*26)] +
+      letters[Math.floor(Math.random()*26)] +
+      letters[Math.floor(Math.random()*26)] +
+      " " +
+      Math.floor(100000 + Math.random()*900000);
   }
-  setText("seriesAndNumber", userData.seriesAndNumber);
+
+  set('seriesAndNumber', userData.seriesAndNumber);
 
   // ---------- DATES ----------
+  function formatDate(d) {
+    return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
+  }
+
   if (!userData.givenDate || !userData.expiryDate) {
     const issued = new Date();
     issued.setFullYear(issued.getFullYear() - 1);
@@ -154,18 +155,19 @@ document.addEventListener("DOMContentLoaded", () => {
     userData.expiryDate = formatDate(expiry);
   }
 
-  setText("givenDate", userData.givenDate);
-  setText("expiryDate", userData.expiryDate);
+  set('givenDate', userData.givenDate);
+  set('expiryDate', userData.expiryDate);
 
-  // ---------- SAVE BACK (IMPORTANT FIX) ----------
-  localStorage.setItem("userData", JSON.stringify(userData));
+  // 💾 IMPORTANT: SAVE BACK EVERY TIME
+  localStorage.setItem('userData', JSON.stringify(userData));
 
   // ---------- COPY ----------
-  const btn = document.getElementById("copyBtn");
+  const btn = document.getElementById('copyBtn');
   if (btn) {
-    btn.addEventListener("click", () => {
-      const text = document.getElementById("seriesAndNumber")?.innerText || "";
+    btn.addEventListener('click', () => {
+      const text = document.getElementById('seriesAndNumber')?.innerText || "";
       navigator.clipboard.writeText(text);
+
       btn.innerText = "Skopiowano!";
       setTimeout(() => btn.innerText = "Kopiuj", 1500);
     });
@@ -173,10 +175,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ---------- CLOCK ----------
   function updateTime() {
-    const now = new Date();
-    const el = document.getElementById("time");
+    const el = document.getElementById('time');
     if (el) {
-      el.innerText = now.toLocaleTimeString("pl-PL") + " " + now.toLocaleDateString("pl-PL");
+      const now = new Date();
+      el.innerText = `Czas: ${now.toLocaleTimeString('pl-PL')} ${now.toLocaleDateString('pl-PL')}`;
     }
   }
 
