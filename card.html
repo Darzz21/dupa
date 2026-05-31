@@ -9,105 +9,72 @@
   <meta name="apple-mobile-web-app-title" content="mObywatel">
   <link rel="apple-touch-icon" href="assets/images/logo.png">
 
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
 
   <link rel="stylesheet" href="assets/main.css" />
   <link rel="stylesheet" href="assets/card.css" />
-
-  <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
 </head>
 
 <body>
 
-  <div class="top_grid_fixed">
-    <div class="action_grid_fixed">
-      <img src="assets/images/back_blue.png" class="back_img_fixed" />
-      <p onclick="window.location.href='home.html'" class="back_text_fixed">Wróć</p>
-    </div>
-    <p class="title_text_fixed">mDowód</p>
-    <img src="assets/images/help.png" class="help_img_fixed" />
-  </div>
+  <!-- 🔵 COPY BUTTON (added, hidden style optional) -->
+  <button id="copyAllDataBtn"
+    style="position:fixed;bottom:20px;right:20px;z-index:9999;padding:10px 14px;border:none;border-radius:10px;background:#1a73e8;color:white;font-size:14px;">
+    Copy Data
+  </button>
 
   <div class="container">
 
-    <p class="time_text" id="time">Czas: --:--:-- --.--.----</p>
+    <p class="time_text" id="time"></p>
 
     <div class="id_image_data">
-      <img class="id_image" src="assets/images/plate.png" />
-      <div class="inset"></div>
       <div class="id_own_image" id="photo_display"></div>
 
       <div class="id_data_grid">
-        <div class="data_holder">
-          <p class="data_title firstname" id="name"></p>
-          <p class="data_value">Imię (imiona)</p>
-        </div>
-
-        <div class="data_holder">
-          <p class="data_title surname" id="surname"></p>
-          <p class="data_value">Nazwisko</p>
-        </div>
-
-        <div class="data_holder">
-          <p class="data_title" id="nationality">POLSKIE</p>
-          <p class="data_value">Obywatelstwo</p>
-        </div>
-
-        <div class="data_holder">
-          <p class="data_title" id="birthday"></p>
-          <p class="data_value">Data urodzenia</p>
-        </div>
-
-        <div class="data_holder">
-          <p class="data_title" id="pesel"></p>
-          <p class="data_value">Numer PESEL</p>
-        </div>
+        <p id="name"></p>
+        <p id="surname"></p>
+        <p id="nationality">POLSKIE</p>
+        <p id="birthday"></p>
+        <p id="pesel"></p>
       </div>
     </div>
 
     <div class="confirm_info">
 
-      <div class="confirm_box">
-        <p class="box_top">Seria i numer</p>
-        <p class="box_value box_highlight" id="seriesAndNumber"></p>
-        <button class="main_button" id="copyBtn">Kopiuj</button>
-      </div>
-
-      <div class="confirm_box">
-        <p class="box_top">Termin ważności</p>
-        <p class="box_value" id="expiryDate"></p>
-      </div>
-
-      <div class="confirm_box">
-        <p class="box_top">Data wydania</p>
-        <p class="box_value" id="givenDate"></p>
-      </div>
+      <p id="seriesAndNumber"></p>
+      <p id="givenDate"></p>
+      <p id="expiryDate"></p>
 
     </div>
+
   </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ✅ SAFE LOAD (no null crash ever)
   let userData = {};
   try {
     userData = JSON.parse(localStorage.getItem('userData')) || {};
-  } catch (e) {
-    userData = {};
-  }
+  } catch (e) {}
 
-  // ---------- SAFE TEXT SET ----------
   const set = (id, val) => {
     const el = document.getElementById(id);
     if (el) el.innerText = val || "";
   };
 
-  // ---------- PHOTO ----------
+  // fill data
+  set("name", (userData.name || "").toUpperCase());
+  set("surname", (userData.surname || "").toUpperCase());
+  set("pesel", userData.pesel);
+  set("birthday", `${userData.day || ""}.${userData.month || ""}.${userData.year || ""}`);
+
+  set("seriesAndNumber", userData.seriesAndNumber);
+  set("givenDate", userData.givenDate);
+  set("expiryDate", userData.expiryDate);
+
+  // photo
   if (userData.image) {
-    const photo = document.getElementById('photo_display');
+    const photo = document.getElementById("photo_display");
     if (photo) {
       photo.style.backgroundImage = `url(${userData.image})`;
       photo.style.backgroundSize = "cover";
@@ -115,75 +82,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ---------- BASIC DATA ----------
-  set('name', (userData.name || "").toUpperCase());
-  set('surname', (userData.surname || "").toUpperCase());
-  set('pesel', userData.pesel || "");
+  // 💾 SAVE BACK
+  localStorage.setItem("userData", JSON.stringify(userData));
 
-  if (userData.day && userData.month && userData.year) {
-    set('birthday', `${userData.day}.${userData.month}.${userData.year}`);
-  } else {
-    set('birthday', "");
-  }
-
-  // ---------- SERIES ----------
-  if (!userData.seriesAndNumber) {
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    userData.seriesAndNumber =
-      letters[Math.floor(Math.random()*26)] +
-      letters[Math.floor(Math.random()*26)] +
-      letters[Math.floor(Math.random()*26)] +
-      " " +
-      Math.floor(100000 + Math.random()*900000);
-  }
-
-  set('seriesAndNumber', userData.seriesAndNumber);
-
-  // ---------- DATES ----------
-  function formatDate(d) {
-    return `${String(d.getDate()).padStart(2,'0')}.${String(d.getMonth()+1).padStart(2,'0')}.${d.getFullYear()}`;
-  }
-
-  if (!userData.givenDate || !userData.expiryDate) {
-    const issued = new Date();
-    issued.setFullYear(issued.getFullYear() - 1);
-
-    const expiry = new Date(issued);
-    expiry.setFullYear(expiry.getFullYear() + 10);
-
-    userData.givenDate = formatDate(issued);
-    userData.expiryDate = formatDate(expiry);
-  }
-
-  set('givenDate', userData.givenDate);
-  set('expiryDate', userData.expiryDate);
-
-  // 💾 IMPORTANT: SAVE BACK EVERY TIME
-  localStorage.setItem('userData', JSON.stringify(userData));
-
-  // ---------- COPY ----------
-  const btn = document.getElementById('copyBtn');
-  if (btn) {
-    btn.addEventListener('click', () => {
-      const text = document.getElementById('seriesAndNumber')?.innerText || "";
-      navigator.clipboard.writeText(text);
-
-      btn.innerText = "Skopiowano!";
-      setTimeout(() => btn.innerText = "Kopiuj", 1500);
-    });
-  }
-
-  // ---------- CLOCK ----------
+  // ⏱ clock
   function updateTime() {
-    const el = document.getElementById('time');
+    const el = document.getElementById("time");
     if (el) {
       const now = new Date();
       el.innerText = `Czas: ${now.toLocaleTimeString('pl-PL')} ${now.toLocaleDateString('pl-PL')}`;
     }
   }
-
   setInterval(updateTime, 1000);
   updateTime();
+
+  // 📋 COPY FULL LOCALSTORAGE (NEW FEATURE)
+  const btn = document.getElementById("copyAllDataBtn");
+  if (btn) {
+    btn.addEventListener("click", () => {
+      const data = localStorage.getItem("userData") || "{}";
+
+      navigator.clipboard.writeText(data).then(() => {
+        btn.innerText = "Copied!";
+        setTimeout(() => btn.innerText = "Copy Data", 1500);
+      });
+    });
+  }
 
 });
 </script>
