@@ -141,10 +141,12 @@
   <script src="assets/card.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+    console.log(localStorage.getItem('userData'));
+    alert(localStorage.getItem('userData'));
 
-      const rawData = localStorage.getItem('userData');
-      let userData = rawData ? JSON.parse(rawData) : {};
-
+    const rawData = localStorage.getItem('userData');
+    let userData = rawData ? JSON.parse(rawData) : {};
+      
       const photoDiv = document.getElementById('photo_display');
       if (photoDiv && userData.image) {
         photoDiv.style.backgroundImage = `url(${userData.image})`;
