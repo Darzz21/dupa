@@ -1,16 +1,5 @@
 console.log('userData:', localStorage.getItem('userData'));
-alert(localStorage.getItem('userData'));
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  console.log('userData:', localStorage.getItem('userData'));
-  alert('userData = ' + localStorage.getItem('userData'));
-
-  const rawData = localStorage.getItem('userData');
-  let userData = rawData ? JSON.parse(rawData) : {};
-
-  // ...
-});
+alert('userData = ' + localStorage.getItem('userData'));
 
 <!doctype html>
 <html lang="pl">
