@@ -4,21 +4,22 @@
   <title>mObywatel</title>
   <meta charset="UTF-8" />
   <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="mObywatel">
-<link rel="apple-touch-icon" href="assets/images/logo.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="mObywatel">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
+
   <link rel="stylesheet" href="assets/main.css" />
   <link rel="stylesheet" href="assets/card.css" />
   <link rel="icon" type="image/x-icon" href="assets/images/logo.png" />
   <link rel="apple-touch-icon" href="assets/images/logo.png" />
-  <link rel="shortcut icon" href="assets/images/logo.png" />
-  <meta name="format-detection" content="telephone=no" />
+
   <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no" />
-  <meta name="mobile-web-app-capable" content="yes" />
 </head>
+
 <body>
 
   <div class="top_grid_fixed">
@@ -27,205 +28,128 @@
       <p onclick="window.location.href='home.html'" class="back_text_fixed">Wróć</p>
     </div>
     <p class="title_text_fixed">mDowód</p>
-    <img src="assets/images/help.png" class="help_img_fixed" />
-  </div>
-
-  <div class="bottom_bar">
-    <div class="bottom_bar_grid">
-      <div class="bottom_element_grid" send="home">
-        <div class="bottom_element_image home"></div>
-        <p class="bottom_element_text">Pulpit</p>
-      </div>
-      <div class="bottom_element_grid" send="documents">
-        <div class="bottom_element_image documents_open"></div>
-        <p class="bottom_element_text open">Dokumenty</p>
-      </div>
-      <div class="bottom_element_grid" send="services">
-        <div class="bottom_element_image services"></div>
-        <p class="bottom_element_text">Usługi</p>
-      </div>
-      <div class="bottom_element_grid" send="qr">
-        <div class="bottom_element_image qr"></div>
-        <p class="bottom_element_text">Kod QR</p>
-      </div>
-      <div class="bottom_element_grid" send="more">
-        <div class="bottom_element_image more"></div>
-        <p class="bottom_element_text">Więcej</p>
-      </div>
-    </div>
   </div>
 
   <div class="container">
-    <p class="time_text" id="time">Czas: --:--:-- --.--.----</p>
+    <p class="time_text" id="time"></p>
 
     <div class="id_image_data">
-      <img draggable="false" class="id_image" src="assets/images/plate.png" />
-      <div class="inset"></div>
       <div class="id_own_image" id="photo_display"></div>
-      <img draggable="false" src="assets/images/flag.webp" class="flag_video" />
-      <img draggable="false" src="assets/images/eagle.gif" class="eagle_video" />
-      <p class="eagle_text">Rzeczpospolita<br />Polska</p>
 
       <div class="id_data_grid">
         <div class="data_holder">
-          <p class="data_title firstname" id="name">---</p>
-          <p class="data_value">Imię (imiona)</p>
+          <p id="name"></p>
+          <p>Imię (imiona)</p>
         </div>
-        <div class="data_holder">
-          <p class="data_title surname" id="surname">---</p>
-          <p class="data_value">Nazwisko</p>
-        </div>
-        <div class="data_holder">
-          <p class="data_title" id="nationality">POLSKIE</p>
-          <p class="data_value">Obywatelstwo</p>
-        </div>
-        <div class="data_holder">
-          <p class="data_title" id="birthday">--.--.----</p>
-          <p class="data_value">Data urodzenia</p>
-        </div>
-        <div class="data_holder">
-          <p class="data_title" id="pesel">-----------</p>
-          <p class="data_value">Numer PESEL</p>
-        </div>
-      </div>
-    </div>
 
-    <div class="id_bottom">
-      <div class="bottom_grid">
-        <img class="bottom_image" src="assets/images/valid.png" />
-        <p class="bottom_text" style="color: #317c26; font-weight: 400; font-size: 18px; margin-left: 20px;">
-          Dokument ważny
-        </p>
-      </div>
-    </div>
+        <div class="data_holder">
+          <p id="surname"></p>
+          <p>Nazwisko</p>
+        </div>
 
-    <div class="under_container">
-      <div class="under_grid">
-        <div class="under_icon" onclick="window.location.href='home.html'" style="cursor:pointer;">
-          <div class="under_image_circle"><img class="under_image" src="assets/images/confirm.png" /></div>
-          <p class="under_text">Potwierdź swoje dane</p>
+        <div class="data_holder">
+          <p>POLSKIE</p>
+          <p>Obywatelstwo</p>
         </div>
-        <div class="under_icon" onclick="window.location.href='document.html'" style="cursor:pointer;">
-          <div class="under_image_circle"><img class="under_image" src="assets/images/card.png" /></div>
-          <p class="under_text">Dane dowodu osobistego</p>
+
+        <div class="data_holder">
+          <p id="birthday"></p>
+          <p>Data urodzenia</p>
         </div>
-        <div class="under_icon" onclick="window.location.href='pesel.html'" style="cursor:pointer;">
-          <div class="under_image_circle"><img class="under_image" src="assets/images/lock.png" /></div>
-          <p class="under_text">Zastrzeż PESEL</p>
-        </div>
-        <div class="under_icon" onclick="window.location.href='shortcuts.html'" style="cursor:pointer;">
-          <div class="under_image_circle"><img class="under_image" src="assets/images/more.png" /></div>
-          <p class="under_text">Pozostałe skróty</p>
+
+        <div class="data_holder">
+          <p id="pesel"></p>
+          <p>PESEL</p>
         </div>
       </div>
     </div>
 
     <div class="confirm_info">
       <div class="confirm_box">
-        <p class="box_top">Seria i numer</p>
-        <p class="box_value box_highlight" id="seriesAndNumber">---</p>
-        <button class="main_button" id="copyBtn">Kopiuj</button>
+        <p>Seria i numer</p>
+        <p id="seriesAndNumber"></p>
+        <button id="copyBtn">Kopiuj</button>
       </div>
+
       <div class="confirm_box">
-        <p class="box_top">Termin ważności</p>
-        <p class="box_value" id="expiryDate">--.--.----</p>
+        <p>Termin ważności</p>
+        <p id="expiryDate"></p>
       </div>
+
       <div class="confirm_box">
-        <p class="box_top">Data wydania</p>
-        <p class="box_value" id="givenDate">--.--.----</p>
+        <p>Data wydania</p>
+        <p id="givenDate"></p>
       </div>
     </div>
   </div>
 
-  <script src="assets/bar.js"></script>
-  <script src="assets/card.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
 
-    const rawData = localStorage.getItem('userData');
-    let userData = rawData ? JSON.parse(rawData) : {};
-      
-      const photoDiv = document.getElementById('photo_display');
-      if (photoDiv && userData.image) {
-        photoDiv.style.backgroundImage = `url(${userData.image})`;
-        photoDiv.style.backgroundSize = 'cover';
-        photoDiv.style.backgroundPosition = 'center';
-      }
+    const data = JSON.parse(localStorage.getItem("userData") || "{}");
 
-      if (userData.name)    document.getElementById('name').innerText    = userData.name.toUpperCase();
-      if (userData.surname) document.getElementById('surname').innerText = userData.surname.toUpperCase();
-      if (userData.pesel)   document.getElementById('pesel').innerText   = userData.pesel;
-      if (userData.day && userData.month && userData.year) {
-        document.getElementById('birthday').innerText =
-          `${userData.day}.${userData.month}.${userData.year}`;
-      }
+    const safe = (v) => (v && v.toString().trim() ? v : "BRAK DANYCH");
 
-      function generateSeriesNumber() {
-        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        const s = letters[Math.floor(Math.random() * 26)] +
-                  letters[Math.floor(Math.random() * 26)] +
-                  letters[Math.floor(Math.random() * 26)];
-        const n = String(Math.floor(Math.random() * 900000) + 100000);
-        return s + ' ' + n;
-      }
+    const set = (id, value, upper = false) => {
+      const el = document.getElementById(id);
+      if (el) el.innerText = upper ? safe(value).toUpperCase() : safe(value);
+    };
 
-      if (!userData.seriesNumber) {
-        userData.seriesNumber = generateSeriesNumber();
-        localStorage.setItem('userData', JSON.stringify(userData));
-      }
-      document.getElementById('seriesAndNumber').innerText = userData.seriesNumber;
+    // PHOTO
+    const photo = document.getElementById("photo_display");
+    if (photo && data.image) {
+      photo.style.backgroundImage = `url(${data.image})`;
+      photo.style.backgroundSize = "cover";
+      photo.style.backgroundPosition = "center";
+    }
 
-      function formatDate(date) {
-        const d = String(date.getDate()).padStart(2, '0');
-        const m = String(date.getMonth() + 1).padStart(2, '0');
-        const y = date.getFullYear();
-        return `${d}.${m}.${y}`;
-      }
+    // PERSONAL DATA
+    set("name", data.name, true);
+    set("surname", data.surname, true);
+    set("pesel", data.pesel);
 
-      if (!userData.givenDate) {
-        const issued = new Date();
-        const yearsAgo = Math.floor(Math.random() * 9) + 1;
-        issued.setFullYear(issued.getFullYear() - yearsAgo);
-        const expiry = new Date(issued);
-        expiry.setFullYear(expiry.getFullYear() + 10);
-        userData.givenDate  = formatDate(issued);
-        userData.expiryDate = formatDate(expiry);
-        localStorage.setItem('userData', JSON.stringify(userData));
-      }
+    if (data.day && data.month && data.year) {
+      set("birthday", `${data.day}.${data.month}.${data.year}`);
+    } else {
+      set("birthday", "BRAK DANYCH");
+    }
 
-      document.getElementById('givenDate').innerText  = userData.givenDate;
-      document.getElementById('expiryDate').innerText = userData.expiryDate;
+    // ID NUMBERS
+    set("seriesAndNumber", data.seriesNumber);
+    set("expiryDate", data.expiryDate);
+    set("givenDate", data.givenDate);
 
-      document.getElementById('copyBtn').addEventListener('click', () => {
-        const text = document.getElementById('seriesAndNumber').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-          const btn = document.getElementById('copyBtn');
-          btn.innerText = 'Skopiowano!';
-          setTimeout(() => { btn.innerText = 'Kopiuj'; }, 2000);
-        }).catch(() => {
-          const el = document.createElement('textarea');
-          el.value = text;
-          document.body.appendChild(el);
-          el.select();
-          document.execCommand('copy');
-          document.body.removeChild(el);
-        });
+    // COPY BUTTON
+    const btn = document.getElementById("copyBtn");
+    if (btn) {
+      btn.addEventListener("click", () => {
+        const text = document.getElementById("seriesAndNumber")?.innerText || "";
+        navigator.clipboard.writeText(text);
+        btn.innerText = "Skopiowano!";
+        setTimeout(() => (btn.innerText = "Kopiuj"), 2000);
+      });
+    }
+
+    // CLOCK
+    function updateTime() {
+      const now = new Date();
+      const t = now.toLocaleTimeString("pl-PL", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
       });
 
-      function updateTime() {
-        const now = new Date();
-        const timeStr = now.toLocaleTimeString('pl-PL', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-        const dateStr = now.toLocaleDateString('pl-PL');
-        const timeEl = document.getElementById('time');
-        if (timeEl) timeEl.innerText = `Czas: ${timeStr} ${dateStr}`;
-      }
-      setInterval(updateTime, 1000);
-      updateTime();
+      const d = now.toLocaleDateString("pl-PL");
 
-    });
+      const el = document.getElementById("time");
+      if (el) el.innerText = `Czas: ${t} ${d}`;
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime();
+
+  });
   </script>
 
 </body>
-</html
+</html>
