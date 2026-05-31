@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <title>mObywatel</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="assets/home.css">
+  <link rel="stylesheet" href="assets/main.css">
+  <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
+  <link rel="apple-touch-icon" href="assets/images/logo.png">
+  <link rel="shortcut icon" href="assets/images/logo.png">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <style>
+    .maintenance-banner {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: linear-gradient(135deg, #1a56db, #0d3b9e);
+      color: white;
+      text-align: center;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-family: Arial, sans-serif;
+      z-index: 9999;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+      animation: slideDown 0.4s ease;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    .maintenance-banner b { display: block; font-size: 14px; margin-bottom: 2px; }
+    .maintenance-close {
+      position: absolute;
+      right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 24px;
+      text-align: center;
+      padding: 0;
+      width: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="maintenance-banner" id="maintenanceBanner" style="display:none;">
+    <b>🔧 Trwa aktualizacja aplikacji</b>
+    Aplikacja może nie działać prawidłowo ponieważ ją ulepszam. Pozdrawiam Simonxx^_^
+    <button class="maintenance-close" onclick="document.getElementById('maintenanceBanner').style.display='none'">✕</button>
+  </div>
+
+  <div class="bottom_bar">
+    <div class="bottom_bar_grid">
+      <div class="bottom_element_grid" send="home">
+        <div class="bottom_element_image home_open home"></div>
+        <p class="bottom_element_text open">Pulpit</p>
+      </div>
+      <div class="bottom_element_grid" send="documents">
+        <div class="bottom_element_image documents"></div>
+        <p class="bottom_element_text">Dokumenty</p>
+      </div>
+      <div class="bottom_element_grid" send="services">
+        <div class="bottom_element_image services"></div>
+        <p class="bottom_element_text">Usługi</p>
+      </div>
+      <div class="bottom_element_grid" send="qr">
+        <div class="bottom_element_image qr"></div>
+        <p class="bottom_element_text">Kod QR</p>
+      </div>
+      <div class="bottom_element_grid" send="more">
+        <div class="bottom_element_image more"></div>
+        <p class="bottom_element_text">Więcej</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="top_grid">
+      <img src="assets/images/logo_rounded.png" class="top_image">
+      <img src="assets/images/bell.png" class="top_image right">
+    </div>
+    <div class="card_grid">
+      <p class="title">Dokumenty</p>
+      <button class="main_button">Dodaj</button>
+      <button class="main_button all_documents" onclick="sendTo('documents')">Wszystkie</button>
+    </div>
+    <div class="card" onclick="sendTo('card', null, 'home')">
+      <img class="background" src="assets/images/card_background.png">
+      <img class="human" src="assets/images/human.png">
+      <div class="id_bottom">
+        <p class="name">mDowód</p>
+        <img class="arrow" src="assets/images/right_arrow_sharp.png">
+      </div>
+    </div>
+    <div class="card_below_grid">
+      <p class="title">Usługi</p>
+      <button class="main_button all_services" onclick="sendTo('services')">Wszystkie</button>
+    </div>
+    <div class="services_grid">
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/safe_in_web.png">
+        <p class="service_box_name">Bezpiecznie w sieci</p>
+      </div>
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/vehicle.png">
+        <p class="service_box_name">Historia pojazdu</p>
+      </div>
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/pesel.png">
+        <p class="service_box_name">Zastrzeż PESEL</p>
+      </div>
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/business.png">
+        <p class="service_box_name">Firma</p>
+      </div>
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/penalties.png">
+        <p class="service_box_name">Punkty karne</p>
+      </div>
+      <div class="service_box">
+        <img class="service_box_icon" src="assets/images/tickets.png">
+        <p class="service_box_name">Mandaty</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/bar.js"></script>
+  <script src="assets/manifest.js"></script>
+  <script src="assets/cache.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBmk6wS524JWhphQ60yK8kbzO6CnoVzyRw",
+      authDomain: "cobywatel-keys.firebaseapp.com",
+      projectId: "cobywatel-keys",
+      storageBucket: "cobywatel-keys.firebasestorage.app",
+      messagingSenderId: "872471814880",
+      appId: "1:872471814880:web:4bd0fb7d3ffba583b2e685"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function checkStatus() {
+
+      // Sprawdź tryb konserwacji - bezpośrednio po ID
+      try {
+        const maintenanceDoc = await getDoc(doc(db, 'settings', 'maintenance'));
+        const banner = document.getElementById('maintenanceBanner');
+        if (maintenanceDoc.exists() && maintenanceDoc.data().enabled === true) {
+          banner.style.display = 'block';
+        } else {
+          banner.style.display = 'none';
+        }
+      } catch(e) {
+        console.log('Błąd konserwacji:', e);
+      }
+
+      // Sprawdź klucz użytkownika
+      const usedKey = localStorage.getItem('usedKey');
+      if (!usedKey) return;
+
+      try {
+        const q = query(collection(db, 'keys'), where('key', '==', usedKey));
+        const snapshot = await getDocs(q);
+
+        if (!snapshot.empty) {
+          const docSnap = snapshot.docs[0];
+          const data = docSnap.data();
+
+          // Aktualizuj lastSeen
+          await updateDoc(doc(db, 'keys', docSnap.id), {
+            lastSeen: new Date().toISOString()
+          });
+
+          // Wylogowany przez admina
+          if (data.kicked === true) {
+            localStorage.clear();
+            window.location.href = 'index.html';
+            return;
+          }
+
+          // Klucz wygasł
+          if (data.expiresAt && new Date() > new Date(data.expiresAt)) {
+            localStorage.clear();
+            window.location.href = 'index.html';
+            return;
+          }
+        }
+      } catch (e) {
+        console.log('Błąd:', e);
+      }
+    }
+
+    checkStatus();
+    setInterval(checkStatus, 15000);
+  </script>
+
+</body>
+</html>
